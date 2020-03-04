@@ -6,7 +6,11 @@ namespace Programowanie
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string equ;
+            Console.Write("podaj rownanie: ");
+            equ = Console.ReadLine();
+            var a = new RPN(equ);
+            Console.WriteLine(a.wypisz());
         }
     }
 }
