@@ -10,7 +10,7 @@ namespace Programowanie
             Console.Write("podaj rownanie: ");
             equ = Console.ReadLine();
             RPN obj = new RPN(equ);
-            Console.WriteLine(obj.temp());
+            obj.temp();
            
         }
     }

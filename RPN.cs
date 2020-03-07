@@ -60,7 +60,7 @@ namespace Programowanie
                     Q.Enqueue(S.Pop());
                     S.Push(token);
                 }
-                else if(Double.TryParse(token, out token1))Q.Enqueue(token);
+                else if(Double.TryParse(token, out token1) || token=="x")Q.Enqueue(token);
                 
             }
             while(S.Count > 0)Q.Enqueue(S.Pop());
