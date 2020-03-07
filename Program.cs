@@ -9,8 +9,9 @@ namespace Programowanie
             string equ;
             Console.Write("podaj rownanie: ");
             equ = Console.ReadLine();
-            var a = new RPN(equ);
-            Console.WriteLine(a.wypisz());
+            RPN obj = new RPN(equ);
+            Console.WriteLine(obj.temp());
+           
         }
     }
 }
