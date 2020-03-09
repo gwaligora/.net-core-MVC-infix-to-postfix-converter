@@ -11,6 +11,8 @@ namespace Programowanie
             equ = Console.ReadLine();
             RPN obj = new RPN(equ);
             obj.temp();
+            Console.WriteLine();
+            Console.WriteLine(obj.returnValue());
            
         }
     }

@@ -76,6 +76,50 @@ namespace Programowanie
                 Console.WriteLine(napis);
             }
         }
+        public double returnValue()
+        {
+            double token1;
+            Stack<double> S1 = new Stack<double>();
+            foreach(string token in this.getPostfix())
+            {
+                if(Double.TryParse(token, out token1))
+                S1.Push(token1);
+                else if(pd.ContainsKey(token))
+                {
+                    double a = S1.Pop();
+                    if(pd[token]==4)
+                    {
+                        if(token=="abs") a = Math.Abs(a);
+                        else if(token=="cos") a = Math.Cos(a);
+                        else if(token=="exp") a = Math.Exp(a);
+                        else if(token=="log") a = Math.Log(a);
+                        else if(token=="sin") a = Math.Sin(a);
+                        else if(token=="sqrt") a = Math.Sqrt(a);
+                        else if(token=="tan") a = Math.Tan(a);
+                        else if(token=="cosh") a = Math.Cosh(a);
+                        else if(token=="sinh") a = Math.Sinh(a);
+                        else if(token=="tanh") a = Math.Tanh(a);
+                        else if(token=="acos") a = Math.Acos(a);
+                        else if(token=="asin") a = Math.Asin(a);
+                        else if(token=="atan") a = Math.Atan(a);
+                    }
+                    else
+                    {
+                        double b = S1.Pop();
+                        if(token=="+") a += b;
+                        else if(token=="-") a = b-a;
+                        else if(token=="*") a *= b;
+                        else if(token=="/") a = b/a;
+                        else if(token=="^") a = Math.Pow(b,a);
+                    }
+                    S1.Push(a);
+                }
+
+            }
+            if(S1.Count>0) return S1.Pop();
+            else return 0;
+        }
+
     }
 
 }
