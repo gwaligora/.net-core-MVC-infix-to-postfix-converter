@@ -10,9 +10,10 @@ namespace Programowanie
             Console.Write("podaj rownanie: ");
             equ = Console.ReadLine();
             RPN obj = new RPN(equ);
-            obj.temp();
-            Console.WriteLine();
-            Console.WriteLine(obj.returnValue());
+            //obj.temp();
+            obj.getPostfix();
+            Console.WriteLine("wynika dla x: {0}",obj.returnValue());
+            obj.returnValueNotOnce();
            
         }
     }

@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Linq;
 
 
 namespace Programowanie
 {
     public class RPN
     {
+        List<string>list = new List<string>();
+        double min,max,xVar;
+        int n;
+        string[] toValue = new string[1];
+        
         static Dictionary<string,int> pd = new Dictionary<string, int>()
         {
             {"abs",4},{"cos",4},{"exp",4},{"log",4},{"sin",4},{"sqrt",4},{"tan",4},{"tanh",4},{"acos",4},{"asin",4},{"atan",4},
@@ -28,6 +34,7 @@ namespace Programowanie
         
         public string[] TokensToArray()
         {
+            string stringToCheck = "x";
             int i=0;
             Regex rx = new Regex(@"\(|\)|\^|\*|\/|\+|\-|(abs)|(cos)|(exp)|(log)|(sin)|(sqrt)|(tan)|(cosh)|(sinh)|(tanh)|(acos)|(asin)|(atan)|(x)|((\d*)(\.)?(\d+))");
             MatchCollection tokens = rx.Matches(this.equ);
@@ -37,12 +44,49 @@ namespace Programowanie
             ArrayOfTokens[i] = token.Value; 
             i++;
         }           
-          //foreach(string napis in ArrayOfTokens)Console.WriteLine(napis);
+        if(ArrayOfTokens.Any(stringToCheck.Contains))gimmeX();
+          
             return ArrayOfTokens;
         }
-        
+        public void gimmeX()
+        {
+            Console.WriteLine();
+            Console.Write("podaj x: ");
+            if( double.TryParse(Console.ReadLine(), out xVar))gimmeMinMax();
+            else gimmeX();
+        }
+        public void gimmeMinMax()
+        {
+            double temp;
+            Console.WriteLine();
+            Console.Write("podaj poczatek przedzialu: ");
+            if(double.TryParse(Console.ReadLine(), out min))
+            {
+                Console.WriteLine();
+                Console.Write("podaj koniec przedzialu ");
+                if(double.TryParse(Console.ReadLine(), out max))
+                {
+                 Console.Write("\n podaj n: ");   
+                 if(int.TryParse(Console.ReadLine(), out n))Console.Write("\n ok!");
+                 else gimmeMinMax();
+
+                }
+                else gimmeMinMax();
+            }
+            else gimmeMinMax();
+
+            if(min>max)
+            {
+                temp = min;
+                min = max;
+                max = temp;
+            }
+            //Console.Write("\nmin = "+ min + " max = "+ max+ "\n");
+            
+
+        }
     
-        public string[] getPostfix()
+        public void getPostfix()
         {
             double token1;
             foreach(string token in this.TokensToArray())
@@ -64,14 +108,18 @@ namespace Programowanie
                 
             }
             while(S.Count > 0)Q.Enqueue(S.Pop());
+                    
+            foreach(string a in Q.ToArray())
+            list.Add(a);
 
-
-            return Q.ToArray();
+            
+             
         }
 
+        
         public void temp()
         {
-            foreach(string napis in this.getPostfix())
+            foreach(string napis in this.list)
             {
                 Console.WriteLine(napis);
             }
@@ -80,10 +128,11 @@ namespace Programowanie
         {
             double token1;
             Stack<double> S1 = new Stack<double>();
-            foreach(string token in this.getPostfix())
+            foreach(string token in list)
             {
                 if(Double.TryParse(token, out token1))
                 S1.Push(token1);
+                else if(token=="x")S1.Push(xVar);
                 else if(pd.ContainsKey(token))
                 {
                     double a = S1.Pop();
@@ -116,10 +165,29 @@ namespace Programowanie
                 }
 
             }
-            if(S1.Count>0) return S1.Pop();
+            if(S1.Count>0)
+            {
+                return S1.Pop();
+            }
             else return 0;
         }
 
+        public void returnValueNotOnce()
+        {
+            Console.WriteLine("dla przedzialow:");
+            double diff = max - min;
+            double diff2 = diff /n;
+            xVar = min;
+
+            for(int i = 0;  i<= n; i++)
+            {
+                Console.Write("{0}. dla x = {1} wynik to: ",i ,xVar );
+                Console.WriteLine(returnValue());
+                xVar+=diff2;
+            }
+            
+            
+        }
     }
 
 }
