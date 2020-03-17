@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Globalization;
-using System.Linq;
+
 
 
 namespace Programowanie
 {
     public class RPN
     {
+  
+
         List<string>list = new List<string>();
-        double min,max,xVar;
-        int n;
-        string[] toValue = new string[1];
+        double xVar;
+        int n,min,max;
+
         
         static Dictionary<string,int> pd = new Dictionary<string, int>()
         {
@@ -26,15 +27,35 @@ namespace Programowanie
         public Queue<string> Q = new Queue<string>();
         string equ;
 
-         public RPN (string equ)
+         public RPN (string equ, double x, int x_min, int  x_max, int n)
         {
+         int tmp;
          this.equ = equ;   
+         this.xVar = x;
+         this.min = x_min;
+         this.max = x_max;
+         this.n = n;
+
+          if(min>max)
+            {
+                tmp = min;
+                min = max;
+                max = tmp;
+            }
+
+
         }
         
-        
+        public bool isCorrect()
+        {
+
+
+            return true;
+        }
+
         public string[] TokensToArray()
         {
-            string stringToCheck = "x";
+            
             int i=0;
             Regex rx = new Regex(@"\(|\)|\^|\*|\/|\+|\-|(abs)|(cos)|(exp)|(log)|(sin)|(sqrt)|(tan)|(cosh)|(sinh)|(tanh)|(acos)|(asin)|(atan)|(x)|((\d*)(\.)?(\d+))");
             MatchCollection tokens = rx.Matches(this.equ);
@@ -43,48 +64,14 @@ namespace Programowanie
         {                        
             ArrayOfTokens[i] = token.Value; 
             i++;
+            Console.Write("{0} ",token);
+            
         }           
-        if(ArrayOfTokens.Any(stringToCheck.Contains))gimmeX();
+            Console.WriteLine();
           
             return ArrayOfTokens;
         }
-        public void gimmeX()
-        {
-            Console.WriteLine();
-            Console.Write("podaj x: ");
-            if( double.TryParse(Console.ReadLine(), out xVar))gimmeMinMax();
-            else gimmeX();
-        }
-        public void gimmeMinMax()
-        {
-            double temp;
-            Console.WriteLine();
-            Console.Write("podaj poczatek przedzialu: ");
-            if(double.TryParse(Console.ReadLine(), out min))
-            {
-                Console.WriteLine();
-                Console.Write("podaj koniec przedzialu ");
-                if(double.TryParse(Console.ReadLine(), out max))
-                {
-                 Console.Write("\n podaj n: ");   
-                 if(int.TryParse(Console.ReadLine(), out n))Console.Write("\n ok!");
-                 else gimmeMinMax();
-
-                }
-                else gimmeMinMax();
-            }
-            else gimmeMinMax();
-
-            if(min>max)
-            {
-                temp = min;
-                min = max;
-                max = temp;
-            }
-            //Console.Write("\nmin = "+ min + " max = "+ max+ "\n");
-            
-
-        }
+       
     
         public void getPostfix()
         {
@@ -110,20 +97,18 @@ namespace Programowanie
             while(S.Count > 0)Q.Enqueue(S.Pop());
                     
             foreach(string a in Q.ToArray())
+            {
             list.Add(a);
-
+            Console.Write("{0} ",a);
+            }
+            Console.WriteLine();
             
              
         }
 
         
-        public void temp()
-        {
-            foreach(string napis in this.list)
-            {
-                Console.WriteLine(napis);
-            }
-        }
+   
+   
         public double returnValue()
         {
             double token1;
@@ -174,17 +159,19 @@ namespace Programowanie
 
         public void returnValueNotOnce()
         {
-            Console.WriteLine("dla przedzialow:");
-            double diff = max - min;
-            double diff2 = diff /n;
+            
+            int diff = max - min;
+            double diff2 = (double)diff / (n-1);
             xVar = min;
-
-            for(int i = 0;  i<= n; i++)
+            //Console.WriteLine(diff);
+            //Console.WriteLine(diff2);
+            for(int i = 0;  i<= n-1; i++)
             {
-                Console.Write("{0}. dla x = {1} wynik to: ",i ,xVar );
-                Console.WriteLine(returnValue());
+                Console.WriteLine("{0} => {1}",xVar,returnValue() );
+                
                 xVar+=diff2;
             }
+            
             
             
         }
