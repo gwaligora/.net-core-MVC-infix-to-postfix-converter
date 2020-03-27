@@ -64,10 +64,12 @@ namespace Programowanie
         }           
             Console.WriteLine();
           
+        
+
             return ArrayOfTokens;
         }
        
-
+       
 
         public bool isCorrect()
         {
@@ -130,7 +132,13 @@ namespace Programowanie
                 else if(token=="x")S1.Push(xVar);
                 else if(pd.ContainsKey(token))
                 {
-                    double a = S1.Pop();
+                    double a =0;
+                    if(S1.Count>0)a = S1.Pop();
+                    else{
+                        Console.WriteLine("wrong equation format");
+                        Environment.Exit(0);
+
+                    }
                     if(pd[token]==4)
                     {
                         if(token=="abs") a = Math.Abs(a);
@@ -149,7 +157,13 @@ namespace Programowanie
                     }
                     else
                     {
-                        double b = S1.Pop();
+                        double b =0;
+                        if(S1.Count>0){ b = S1.Pop();}
+                        else{
+                            Console.WriteLine("wrong equation format");
+                            Environment.Exit(0);
+
+                        }
                         if(token=="+") a += b;
                         else if(token=="-") a = b-a;
                         else if(token=="*") a *= b;
