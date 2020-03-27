@@ -46,12 +46,7 @@ namespace Programowanie
 
         }
         
-        public bool isCorrect()
-        {
 
-
-            return true;
-        }
 
         public string[] TokensToArray()
         {
@@ -72,6 +67,21 @@ namespace Programowanie
             return ArrayOfTokens;
         }
        
+
+
+        public bool isCorrect()
+        {
+            int openBracket = 0;
+            int closeBracket = 0;
+            foreach(string a in this.list)
+            {
+                if(a == "(")openBracket++;
+                else if(a ==")")closeBracket++;
+            }
+            if(openBracket!=closeBracket)return false;
+
+            return true;
+        }
     
         public void getPostfix()
         {

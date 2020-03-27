@@ -7,6 +7,12 @@ namespace Programowanie
     {
         static void Main(string[] args)
         {
+            if(args.Length != 5)
+            {
+                Console.WriteLine("not enough arg");
+                Environment.Exit(0);
+            }
+
             string equ;
             double x;
             int  x_min, x_max, n;
@@ -27,6 +33,17 @@ namespace Programowanie
 
             RPN obj = new RPN(equ,x,x_min,x_max,n);
             obj.getPostfix();
+            if(obj.isCorrect())
+            {
+
+
+            }
+            else
+            {
+                Console.WriteLine("incorrect equation");
+                Environment.Exit(0);
+
+            }
             Console.WriteLine(obj.returnValue());
             obj.returnValueNotOnce();
            
