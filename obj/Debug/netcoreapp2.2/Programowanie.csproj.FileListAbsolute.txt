@@ -1,0 +1,3 @@
+C:\Users\gwaligora\Desktop\projektProgramowanie\Programowanie\obj\Debug\netcoreapp2.2\Programowanie.csprojAssemblyReference.cache
+C:\Users\gwaligora\Desktop\projektProgramowanie\Programowanie\obj\Debug\netcoreapp2.2\Programowanie.AssemblyInfoInputs.cache
+C:\Users\gwaligora\Desktop\projektProgramowanie\Programowanie\obj\Debug\netcoreapp2.2\Programowanie.AssemblyInfo.cs

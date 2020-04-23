@@ -1,37 +1,26 @@
-﻿using System;
-using System.Globalization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Programowanie
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            if(args.Length != 5)
-            {
-                Console.WriteLine("not enough arg");
-                Environment.Exit(0);
-            }
+            CreateHostBuilder(args).Build().Run();
+        }
 
-            string equ;
-            double x;
-            double  x_min, x_max;
-            int n;
-            
-            
-            equ = args[0];
-            x = double.Parse(args[1]);
-            x_min = double.Parse(args[2]);
-            x_max = double.Parse(args[3]);
-            n = int.Parse(args[4]);
-            RPN obj = new RPN(equ,x,x_min,x_max,n);
-            if(!obj.Valid()){
-                System.Environment.Exit(0);
-            }
-            foreach(string token in obj.TokensToArray()) Console.Write("{0} ",token);
-            obj.getPostfix();
-            Console.WriteLine(obj.returnValue());
-            obj.returnValueNotOnce();
-        } 
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

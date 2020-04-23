@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "5GmBFL5X7nBO3Fk3VCSyBdjBHohTUCEHzubHlj+C8MuGaJF71CGVcGnHckUhm5/qWSUTxlRPEJOySfBjjqCQoA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\gwaligora\\Desktop\\projektProgramowanie\\Programowanie\\Programowanie.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\gwaligora\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.0.3\\microsoft.netcore.app.host.win-x64.3.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
