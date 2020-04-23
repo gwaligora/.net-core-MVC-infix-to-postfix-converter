@@ -4,15 +4,16 @@ using System.Text.RegularExpressions;
 
 
 
+
 namespace Programowanie
 {
     public class RPN
     {
   
 
-        List<string>list = new List<string>();
-        double xVar;
-        int n,min,max;
+        List<string> list = new List<string>();
+        double xVar, min, max;
+        int n, negative;
 
         
         static Dictionary<string,int> pd = new Dictionary<string, int>()
@@ -27,21 +28,36 @@ namespace Programowanie
         public Queue<string> Q = new Queue<string>();
         string equ;
 
-         public RPN (string equ, double x, int x_min, int  x_max, int n)
+         public RPN (string equ, double x, double x_min, double  x_max, int n)
         {
-         int tmp;
+         double tmp;
          this.equ = equ;   
          this.xVar = x;
          this.min = x_min;
          this.max = x_max;
          this.n = n;
 
+         Regex rg = new Regex(@"\.");
+            this.equ = rg.Replace(this.equ,",");
+
+            if(this.equ[0]=='-' && this.equ[1]!='(') 
+            {
+                this.equ = 0+this.equ;
+            }
+            else if(this.equ[0]=='-' && this.equ[1]=='(') 
+            {
+                this.negative = 1;
+                this.equ = this.equ.Remove(0,1);
+            }
+
+
           if(min>max)
             {
-                tmp = min;
-                min = max;
-                max = tmp;
+                tmp = this.min;
+                this.min = this.max;
+                this.max = tmp;
             }
+            
 
 
         }
@@ -52,49 +68,76 @@ namespace Programowanie
         {
             
             int i=0;
-            Regex rx = new Regex(@"\(|\)|\^|\*|\/|\+|\-|(abs)|(cos)|(exp)|(log)|(sin)|(sqrt)|(tan)|(cosh)|(sinh)|(tanh)|(acos)|(asin)|(atan)|(x)|((\d*)(\.)?(\d+))");
+            Regex rx = new Regex(@"\(|\)|\^|\*|\/|\+|\-|(abs)|(cos)|(exp)|(log)|(sin)|(sqrt)|(tan)|(cosh)|(sinh)|(tanh)|(acos)|(asin)|(atan)|(x)|((\d*)(\,)?(\d+))");
             MatchCollection tokens = rx.Matches(this.equ);
             string[] ArrayOfTokens = new string[tokens.Count];
             foreach (Match token in tokens)
         {                        
             ArrayOfTokens[i] = token.Value; 
             i++;
-            Console.Write("{0} ",token);
             
         }           
-            Console.WriteLine();
-          
-        
 
             return ArrayOfTokens;
         }
        
-       
-
-        public bool isCorrect()
+             public bool Valid()
         {
-            int openBracket = 0;
-            int closeBracket = 0;
-            foreach(string a in this.list)
-            {
-                if(a == "(")openBracket++;
-                else if(a ==")")closeBracket++;
-            }
-            if(openBracket!=closeBracket)return false;
+            int bracket = 0;
+            string[] token= new string[this.TokensToArray().Length];
+            token = this.TokensToArray();
+            
+            
 
+            for(int i = 0; i < token.Length; i++)
+            {
+                if(pd.ContainsKey(token[i]))
+                {
+                    if(pd.ContainsKey(token[i+1]) && (pd[token[i]]==1 && pd[token[i]]==2 && pd[token[i]]==3) && (pd[token[i+1]]==1 && pd[token[i+1]]==2 && pd[token[i+1]]==3))
+                    {
+                        Console.WriteLine("incorrect math operators");
+                        return false;
+                    }
+                    else if(pd[token[i]]==4 && token[i+1]!="(")
+                    {
+                        Console.WriteLine("incorrect math function usage");
+                        return false;
+                    }
+                    
+                }
+
+                if(token[i]=="(") 
+                {
+                   bracket++;
+                }
+                else if(token[i]==")") 
+                {
+                    bracket--;
+                }
+                
+            }
+
+            if(bracket!=0){
+                Console.WriteLine("incorrect bracket quantity");
+                return false;
+            }
+
+         
+           
             return true;
         }
+
     
         public void getPostfix()
         {
             double token1;
             foreach(string token in this.TokensToArray())
             {
-                if(token=="(")S.Push(token);
+                 if(token=="(")S.Push(token);
                 else if(token==")")
                 {
                     while(S.Peek()!="(")Q.Enqueue(S.Pop());
-                    //
+                    
                     S.Pop();
                 }
                 else if(pd.ContainsKey(token))
@@ -106,7 +149,7 @@ namespace Programowanie
                 else if(Double.TryParse(token, out token1) || token=="x")Q.Enqueue(token);
                 
             }
-            while(S.Count > 0)Q.Enqueue(S.Pop());
+            while(S.Count>0)Q.Enqueue(S.Pop());
                     
             foreach(string a in Q.ToArray())
             {
@@ -166,7 +209,7 @@ namespace Programowanie
                         }
                         if(token=="+") a += b;
                         else if(token=="-") a = b-a;
-                        else if(token=="*") a *= b;
+                        else if(token=="*") a = b;
                         else if(token=="/") a = b/a;
                         else if(token=="^") a = Math.Pow(b,a);
                     }
@@ -176,7 +219,10 @@ namespace Programowanie
             }
             if(S1.Count>0)
             {
-                return S1.Pop();
+                if(negative ==1)return S1.Pop()*(-1);
+                else{
+                    return S1.Pop();
+                }
             }
             else return 0;
         }
@@ -184,16 +230,16 @@ namespace Programowanie
         public void returnValueNotOnce()
         {
             
-            int diff = max - min;
-            double diff2 = (double)diff / (n-1);
+            double delta = (this.max - this.min)/(n-1);
+            
             xVar = min;
-            //Console.WriteLine(diff);
-            //Console.WriteLine(diff2);
+            // Console.WriteLine(diff);
+          //  Console.WriteLine(diff2);
             for(int i = 0;  i<= n-1; i++)
             {
                 Console.WriteLine("{0} => {1}",xVar,returnValue() );
                 
-                xVar+=diff2;
+                xVar+=delta;
             }
             
             

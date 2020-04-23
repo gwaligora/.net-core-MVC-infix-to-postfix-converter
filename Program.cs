@@ -15,38 +15,23 @@ namespace Programowanie
 
             string equ;
             double x;
-            int  x_min, x_max, n;
+            double  x_min, x_max;
+            int n;
+            
+            
             equ = args[0];
-            
-            if (!double.TryParse(args[1], System.Globalization.NumberStyles.Any, CultureInfo.CurrentCulture, out x) &&
-                !double.TryParse(args[1], System.Globalization.NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out x) &&
-                !double.TryParse(args[1], System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out x))
-                {
-                    Console.WriteLine("wrong format");
-                    Environment.Exit(0);
-                }
-
-            
-            x_min = int.Parse(args[2]);
-            x_max = int.Parse(args[3]);
+            x = double.Parse(args[1]);
+            x_min = double.Parse(args[2]);
+            x_max = double.Parse(args[3]);
             n = int.Parse(args[4]);
-
             RPN obj = new RPN(equ,x,x_min,x_max,n);
+            if(!obj.Valid()){
+                System.Environment.Exit(0);
+            }
+            foreach(string token in obj.TokensToArray()) Console.Write("{0} ",token);
             obj.getPostfix();
-            if(obj.isCorrect())
-            {
-
-
-            }
-            else
-            {
-                Console.WriteLine("incorrect equation");
-                Environment.Exit(0);
-
-            }
             Console.WriteLine(obj.returnValue());
             obj.returnValueNotOnce();
-           
-        }
+        } 
     }
 }
