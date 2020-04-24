@@ -33,7 +33,7 @@ namespace Programowanie
             Console.WriteLine();
             obj.getPostfix();
             Console.WriteLine(obj.returnValue());
-            obj.returnValueNotOnce();
+            obj.returnValues();
         } 
     }
 }

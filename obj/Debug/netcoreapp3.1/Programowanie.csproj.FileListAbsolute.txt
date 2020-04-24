@@ -16,3 +16,5 @@ C:\Users\gwaligora\Desktop\projektProgramowanie\Programowanie\obj\Debug\netcorea
 C:\Users\gwaligora\Desktop\projektProgramowanie\Programowanie\obj\Debug\netcoreapp3.1\staticwebassets\Programowanie.StaticWebAssets.xml
 C:\Users\gwaligora\Desktop\projektProgramowanie\Programowanie\obj\Debug\netcoreapp3.1\Programowanie.dll
 C:\Users\gwaligora\Desktop\projektProgramowanie\Programowanie\obj\Debug\netcoreapp3.1\Programowanie.pdb
+C:\Users\gwaligora\Desktop\projektProgramowanie\Programowanie\obj\Debug\netcoreapp3.1\Programowanie.csproj.CoreCompileInputs.cache
+C:\Users\gwaligora\Desktop\projektProgramowanie\Programowanie\obj\Debug\netcoreapp3.1\Programowanie.genruntimeconfig.cache

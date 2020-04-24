@@ -28,21 +28,67 @@ namespace Programowanie
         public Queue<string> Q = new Queue<string>();
         string equ;
 
+public RPN (string equ)
+{
+    this.equ = equ; 
+    
+     Regex rg = new Regex(@"\.");
+            this.equ = rg.Replace(this.equ,",");
+
+            if(this.equ[0]=='-' && this.equ[1]!='(') 
+            {
+                this.equ = "0"+this.equ;
+            }
+            else if(this.equ[0]=='-' && this.equ[1]=='(') 
+            {
+                this.negative = 1;
+                this.equ = this.equ.Remove(0,1);
+            }
+}
+
+public RPN (string equ, double x)
+{
+    this.equ = equ; 
+    this.xVar = x;
+    
+     Regex rg = new Regex(@"\.");
+            this.equ = rg.Replace(this.equ,",");
+
+            if(this.equ[0]=='-' && this.equ[1]!='(') 
+            {
+                this.equ = "0"+this.equ;
+            }
+            else if(this.equ[0]=='-' && this.equ[1]=='(') 
+            {
+                this.negative = 1;
+                this.equ = this.equ.Remove(0,1);
+            }
+}
+ public RPN (string equ, double x_min, double  x_max, int n)
+        {
+         this.equ = equ;
+         this.min = x_min;
+         this.max = x_max;
+         this.n = n;
+
+
+        }
          public RPN (string equ, double x, double x_min, double  x_max, int n)
         {
          double tmp;
-         this.equ = equ;   
+           
          this.xVar = x;
          this.min = x_min;
          this.max = x_max;
          this.n = n;
+
 
          Regex rg = new Regex(@"\.");
             this.equ = rg.Replace(this.equ,",");
 
             if(this.equ[0]=='-' && this.equ[1]!='(') 
             {
-                this.equ = 0+this.equ;
+                this.equ = "0"+this.equ;
             }
             else if(this.equ[0]=='-' && this.equ[1]=='(') 
             {
@@ -62,7 +108,7 @@ namespace Programowanie
 
         }
         
-
+        
 
         public string[] TokensToArray()
         {
@@ -122,13 +168,11 @@ namespace Programowanie
                 return false;
             }
 
-         
-           
             return true;
         }
 
     
-        public void getPostfix()
+        public string[] getPostfix()
         {
             double token1;
             foreach(string token in this.TokensToArray())
@@ -154,10 +198,10 @@ namespace Programowanie
             foreach(string a in Q.ToArray())
             {
             list.Add(a);
-            Console.Write("{0} ",a);
+            
             }
             Console.WriteLine();
-            
+            return Q.ToArray();
              
         }
 
@@ -209,7 +253,7 @@ namespace Programowanie
                         }
                         if(token=="+") a += b;
                         else if(token=="-") a = b-a;
-                        else if(token=="*") a = b;
+                        else if(token=="*") a *= b;
                         else if(token=="/") a = b/a;
                         else if(token=="^") a = Math.Pow(b,a);
                     }
@@ -227,24 +271,25 @@ namespace Programowanie
             else return 0;
         }
 
-        public void returnValueNotOnce()
+        public object[] returnValues()
         {
+            object[] resultTable = new object[n];
             
             double delta = (this.max - this.min)/(n-1);
             
             xVar = min;
-            // Console.WriteLine(diff);
-          //  Console.WriteLine(diff2);
+
             for(int i = 0;  i<= n-1; i++)
             {
-                Console.WriteLine("{0} => {1}",xVar,returnValue() );
-                
+                resultTable[i] = new{
+                    x = xVar, y = returnValue()
+                };
                 xVar+=delta;
             }
-            
-            
-            
+            return resultTable;
+                        
         }
+     
     }
 
 }
