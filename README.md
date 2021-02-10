@@ -1,2 +1,2 @@
-# Programowanie
-studia na PO
+# C# MVC infix to postfix converter
+
